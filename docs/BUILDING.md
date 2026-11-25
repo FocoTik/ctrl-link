@@ -66,3 +66,18 @@ node gen-vectors.mjs                   # regenerate ../test-vectors.json
 ```
 
 `PROTOCOL.md` is the source of truth: change it first, regenerate vectors, then update the three apps.
+
+## Releasing
+
+1. Bump the version: `Windows/Directory.Build.props` (`<Version>`), `Android/app/build.gradle.kts` (`versionCode`, `versionName`), and add a `CHANGELOG.md` entry.
+2. Commit, then tag and push:
+
+   ```bash
+   git tag v1.1.0 && git push origin v1.1.0
+   ```
+
+3. `.github/workflows/release.yml` builds the Mac zip, Android APK and both Windows installers, writes `SHA256SUMS.txt`, and publishes a GitHub Release using `.github/RELEASE_TEMPLATE.md`.
+
+Asset names have no version in them (`CtrlLink-Windows-x64-Setup.exe`, `CtrlLink-Windows-arm64-Setup.exe`, `CtrlLink-macOS.zip`, `CtrlLink-Android.apk`), so the README's `releases/latest/download/...` links always point at the newest build.
+
+CI builds are unsigned: the Android APK is a debug build and the Windows installers show SmartScreen's "Unknown publisher" warning. To ship signed builds, sign locally and upload to the release, or add the keys as repository secrets and extend the workflow.

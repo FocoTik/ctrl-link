@@ -18,10 +18,26 @@
 </p>
 
 <p align="center">
+  <a href="../../releases/latest/download/CtrlLink-Windows-x64-Setup.exe"><img alt="Download for Windows" src="https://img.shields.io/badge/Download-Windows-0078D4?style=for-the-badge&logo=windows&logoColor=white"></a>
+  <a href="../../releases/latest/download/CtrlLink-macOS.zip"><img alt="Download for macOS" src="https://img.shields.io/badge/Download-macOS-111111?style=for-the-badge&logo=apple&logoColor=white"></a>
+  <a href="../../releases/latest/download/CtrlLink-Android.apk"><img alt="Download for Android" src="https://img.shields.io/badge/Download-Android-3DDC84?style=for-the-badge&logo=android&logoColor=white"></a>
+</p>
+
+<p align="center">
   <img src="docs/images/screenshots/dark-devices-two.png" width="250" alt="Devices">
   <img src="docs/images/screenshots/dark-pair-host.png" width="250" alt="Pairing">
   <img src="docs/images/screenshots/dark-transfer.png" width="250" alt="File transfer">
 </p>
+
+## Download
+
+| Platform | Download | Notes |
+|---|---|---|
+| **Windows 10/11** | [Installer (x64)](../../releases/latest/download/CtrlLink-Windows-x64-Setup.exe) · [Arm64](../../releases/latest/download/CtrlLink-Windows-arm64-Setup.exe) | No admin needed. If SmartScreen warns: **More info → Run anyway**. Allow Ctrl Link on **private networks** |
+| **macOS 14+** (Apple silicon) | [CtrlLink-macOS.zip](../../releases/latest/download/CtrlLink-macOS.zip) | Unzip, move to Applications, right-click → **Open** the first time |
+| **Android 8.0+** | [CtrlLink-Android.apk](../../releases/latest/download/CtrlLink-Android.apk) | Open on the phone and allow installing from this source |
+
+All versions and checksums: **[Releases](../../releases)**. Install on two devices on the same Wi-Fi, then pair with the QR code or 6-digit code.
 
 ## Features
 
@@ -60,7 +76,7 @@ All three apps implement the same wire contract, [`PROTOCOL.md`](Codebase/protoc
 └── .github/          CI workflow, issue and PR templates
 ```
 
-## Quick start
+## Build from source
 
 ```bash
 git clone <this-repo> ctrl-link && cd ctrl-link/Codebase

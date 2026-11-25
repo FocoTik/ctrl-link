@@ -1,0 +1,68 @@
+name: Release
+
+# Push a tag like v1.2.0 to build all three apps and publish a GitHub Release.
+# Asset names carry no version, so README links to releases/latest/download/<name> always work.
+
+on:
+  push:
+    tags: ['v*']
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  mac:
+    runs-on: macos-15
+    defaults: { run: { working-directory: Codebase/Mac } }
+    steps:
+      - uses: actions/checkout@v4
+      - run: ./scripts/build-app.sh
+      - run: ditto -c -k --keepParent "build/Ctrl Link.app" CtrlLink-macOS.zip
+      - uses: actions/upload-artifact@v4
+        with: { name: mac, path: Codebase/Mac/CtrlLink-macOS.zip }
+
+  android:
+    runs-on: ubuntu-latest
+    defaults: { run: { working-directory: Codebase/Android } }
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with: { distribution: temurin, java-version: 21 }
+      - uses: gradle/actions/setup-gradle@v4
+      - run: ./gradlew assembleDebug
+      - run: cp app/build/outputs/apk/debug/app-debug.apk CtrlLink-Android.apk
+      - uses: actions/upload-artifact@v4
+        with: { name: android, path: Codebase/Android/CtrlLink-Android.apk }
+
+  windows:
+    runs-on: macos-15
+    env:
+      DOTNET_INSTALL_DIR: /Users/runner/.dotnet   # build-installer.sh expects ~/.dotnet
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with: { dotnet-version: 10.0.x }
+      - run: Codebase/Windows/scripts/build-installer.sh
+      - run: |
+          cd Codebase/Windows/dist
+          mv CtrlLink-*-Setup-x64.exe CtrlLink-Windows-x64-Setup.exe
+          mv CtrlLink-*-Setup-arm64.exe CtrlLink-Windows-arm64-Setup.exe
+      - uses: actions/upload-artifact@v4
+        with:
+          name: windows
+          path: Codebase/Windows/dist/CtrlLink-Windows-*-Setup.exe
+
+  publish:
+    needs: [mac, android, windows]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with: { path: assets, merge-multiple: true }
+      - run: cd assets && sha256sum * > SHA256SUMS.txt && cat SHA256SUMS.txt
+      - uses: softprops/action-gh-release@v2
+        with:
+          name: Ctrl Link ${{ github.ref_name }}
+          body_path: .github/RELEASE_TEMPLATE.md
+          files: assets/*
