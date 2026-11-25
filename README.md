@@ -14,6 +14,7 @@
   <img alt="Android 8+" src="https://img.shields.io/badge/Android-8.0%2B-000?logo=android">
   <img alt="Windows 10/11" src="https://img.shields.io/badge/Windows-10%20%7C%2011-000?logo=windows">
   <img alt="Protocol v1" src="https://img.shields.io/badge/protocol-v1-000">
+  <img alt="MIT License" src="https://img.shields.io/badge/license-MIT-000">
 </p>
 
 <p align="center">
@@ -111,3 +112,7 @@ Pull requests are welcome — see [CONTRIBUTING.md](CONTRIBUTING.md). For securi
 ## Credits
 
 Display type is [Newsreader](https://fonts.google.com/specimen/Newsreader), licensed under the [SIL Open Font License](Codebase/design/fonts/OFL.txt).
+
+## License
+
+[MIT](LICENSE) © 2026 Focotik agency. The Newsreader font keeps its own [OFL license](Codebase/design/fonts/OFL.txt).
