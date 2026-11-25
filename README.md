@@ -101,9 +101,9 @@ Details in [`Codebase/protocol/PROTOCOL.md`](Codebase/protocol/PROTOCOL.md).
 
 ## Screenshots
 
-| Devices (light) | History | Settings |
+| More devices | History | Settings |
 |---|---|---|
-| <img src="docs/images/screenshots/light-devices-two.png" width="240"> | <img src="docs/images/screenshots/dark-history.png" width="240"> | <img src="docs/images/screenshots/dark-settings.png" width="240"> |
+| <img src="docs/images/screenshots/dark-devices-four.png" width="240"> | <img src="docs/images/screenshots/dark-history.png" width="240"> | <img src="docs/images/screenshots/dark-settings.png" width="240"> |
 
 ## Contributing
 
