@@ -44,6 +44,7 @@ All versions and checksums: **[Releases](../../releases)**. Install on two devic
 
 - **Clipboard sync** — copy text or a link on one device, it's on the clipboard of your other devices.
 - **Files of any size** — images, videos and documents stream device to device with live progress.
+- **Multiple devices, all in sync** — connect several Macs, PCs and phones at once. Anything you copy on one goes to all of them, with each device's live status on the Devices screen.
 - **Pair once** — scan a QR code or type a 6-digit code. Paired devices find each other on the network (mDNS) and reconnect on their own.
 - **Private by design** — X25519 key exchange, AES-256-GCM sessions, nothing leaves your network. No accounts, no servers.
 - **History** — recent clips, filterable by type, kept locally and clearable any time.
