@@ -73,7 +73,7 @@ public abstract record Note
 public interface IEngine : INotifyPropertyChanged, IDisposable
 {
     const string ServiceType = "_ctrllink._tcp";
-    const string AppVersion = "1.0";
+    const string AppVersion = "1.0.1";
     const int DefaultPort = 47823;
 
     string DeviceId { get; }

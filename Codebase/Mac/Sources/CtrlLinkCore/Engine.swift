@@ -76,7 +76,7 @@ public enum Note {
 
 @MainActor public final class CtrlLinkEngine: ObservableObject {
     public static let serviceType = "_ctrllink._tcp"
-    public static let appVersion = "1.0"
+    public static let appVersion = "1.0.1"
 
     @Published public private(set) var pairings: [Pairing]
     @Published public private(set) var onlineIds: Set<String> = []

@@ -34,8 +34,8 @@ cat > "$APP/Contents/Info.plist" <<'PLIST'
 	<key>CFBundleExecutable</key><string>CtrlLink</string>
 	<key>CFBundleIconFile</key><string>AppIcon</string>
 	<key>CFBundlePackageType</key><string>APPL</string>
-	<key>CFBundleShortVersionString</key><string>1.0</string>
-	<key>CFBundleVersion</key><string>1</string>
+	<key>CFBundleShortVersionString</key><string>1.0.1</string>
+	<key>CFBundleVersion</key><string>2</string>
 	<key>NSHumanReadableCopyright</key><string>© 2026 Focotik agency</string>
 	<key>CFBundleURLTypes</key><array><dict>
 		<key>CFBundleURLName</key><string>com.ctrllink.mac.pair</string>

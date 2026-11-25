@@ -6,7 +6,7 @@
     <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
     <!-- Lets the Windows-only app project build on macOS. -->
     <EnableWindowsTargeting>true</EnableWindowsTargeting>
-    <Version>1.0.0</Version>
+    <Version>1.0.1</Version>
     <Company>Ctrl Link</Company>
     <Product>Ctrl Link</Product>
     <!-- Only download the runtimes this app uses (not ASP.NET or WPF), keeps restores and the build zip small. -->

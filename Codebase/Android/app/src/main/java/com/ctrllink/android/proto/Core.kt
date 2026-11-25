@@ -30,7 +30,7 @@ import java.util.concurrent.atomic.AtomicBoolean
 import kotlin.coroutines.coroutineContext
 
 const val V = 1
-const val APP = "1.0"
+const val APP = "1.0.1"
 
 class Me(val id: String, @Volatile var name: String, val pf: String = "android")
 class Peer(val id: String, val name: String, val pf: String, val key: ByteArray)

@@ -2,6 +2,14 @@
 
 Ctrl Link is developed by Focotik agency. All notable changes to this project are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [1.0.1] — 2026-11-25
+
+### Fixed
+- Windows: the History chart could briefly count one clip fewer than the list showed right after a copy. Counts are now updated before the list.
+
+### Changed
+- All apps report version 1.0.1 (app bundle, installer, APK and the `app` field of the `ready` message).
+
 ## [1.0.0] — 2026-11-25
 
 ### Added
