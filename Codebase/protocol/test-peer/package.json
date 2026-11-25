@@ -1,0 +1,19 @@
+{
+  "name": "ctrllink-test-peer",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Ctrl Link Protocol v1 reference implementation and test peer",
+  "bin": {
+    "ctrllink-peer": "./ctrllink-peer.mjs"
+  },
+  "engines": {
+    "node": ">=24"
+  },
+  "scripts": {
+    "test": "node --test"
+  },
+  "dependencies": {
+    "qrcode-terminal": "^0.12.0"
+  }
+}

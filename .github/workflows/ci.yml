@@ -1,0 +1,54 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  protocol:
+    runs-on: ubuntu-latest
+    defaults: { run: { working-directory: Codebase/protocol/test-peer } }
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 24 }
+      - run: npm ci
+      - run: node --test
+
+  mac:
+    runs-on: macos-15
+    defaults: { run: { working-directory: Codebase/Mac } }
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 24 }
+      - run: npm ci
+        working-directory: Codebase/protocol/test-peer
+      - run: CTRLLINK_INTEROP=1 swift test
+
+  android:
+    runs-on: ubuntu-latest
+    defaults: { run: { working-directory: Codebase/Android } }
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with: { distribution: temurin, java-version: 21 }
+      - uses: gradle/actions/setup-gradle@v4
+      - run: ./gradlew testDebugUnitTest assembleDebug
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ctrl-link-android-debug
+          path: Codebase/Android/app/build/outputs/apk/debug/app-debug.apk
+
+  windows:
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with: { dotnet-version: 10.0.x }
+      - uses: actions/setup-node@v4
+        with: { node-version: 24 }
+      - run: npm ci
+        working-directory: Codebase/protocol/test-peer
+      - run: dotnet test Codebase/Windows/tests/CtrlLink.Core.Tests

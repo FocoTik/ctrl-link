@@ -1,0 +1,35 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net10.0</TargetFramework>
+    <AssemblyName>CtrlLink</AssemblyName>
+    <RootNamespace>CtrlLink.App</RootNamespace>
+    <ApplicationIcon>Assets/icon.ico</ApplicationIcon>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <AvaloniaResource Include="Assets/*.ico;Assets/icon.png;Assets/*.ttf" />
+    <AvaloniaResource Include="../../../design/fonts/Newsreader-Variable.ttf" Link="Assets/Newsreader-Variable.ttf" />
+    <None Include="../../../design/fonts/OFL.txt" Link="Newsreader-OFL.txt" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Avalonia" Version="11.3.23" />
+    <PackageReference Include="Avalonia.Desktop" Version="11.3.23" />
+    <PackageReference Include="Avalonia.Themes.Simple" Version="11.3.23" />
+    <PackageReference Include="Avalonia.Fonts.Inter" Version="11.3.23" />
+    <PackageReference Include="Avalonia.Headless" Version="11.3.23" />
+    <PackageReference Include="QRCoder" Version="1.8.1" />
+    <PackageReference Include="Velopack" Version="1.2.161" />
+    <PackageReference Include="System.Security.Cryptography.ProtectedData" Version="10.0.14" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="../CtrlLink.Core/CtrlLink.Core.csproj" />
+  </ItemGroup>
+
+</Project>

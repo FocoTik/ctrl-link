@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generated from design/logo/options/6-merged*.svg ("Option K merged"). -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android" xmlns:aapt="http://schemas.android.com/aapt"
+    android:width="108dp" android:height="108dp" android:viewportWidth="108" android:viewportHeight="108">
+    <group android:translateX="30" android:translateY="30" android:scaleX="2" android:scaleY="2">
+        <group android:rotation="-45" android:pivotX="12" android:pivotY="12">
+            <path android:strokeColor="#FFFFFFFF" android:strokeWidth="3" android:strokeLineCap="round" android:pathData="M11,5H7A5,5 0 0,0 7,15H10.8"/>
+            <path android:fillColor="#FFFFFFFF" android:strokeColor="#FFFFFFFF" android:strokeWidth="1.5" android:strokeLineJoin="round" android:pathData="M14.2,5L11.2,2.9V7.1Z"/>
+            <path android:strokeColor="#FFFFFFFF" android:strokeWidth="3" android:strokeLineCap="round" android:pathData="M13,19H17A5,5 0 0,0 17,9H13.2"/>
+            <path android:fillColor="#FFFFFFFF" android:strokeColor="#FFFFFFFF" android:strokeWidth="1.5" android:strokeLineJoin="round" android:pathData="M9.8,19L12.8,21.1V16.9Z"/>
+        </group>
+    </group>
+</vector>

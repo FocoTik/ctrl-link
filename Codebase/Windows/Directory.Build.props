@@ -1,0 +1,15 @@
+<Project>
+  <PropertyGroup>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <!-- Lets the Windows-only app project build on macOS. -->
+    <EnableWindowsTargeting>true</EnableWindowsTargeting>
+    <Version>1.0.0</Version>
+    <Company>Ctrl Link</Company>
+    <Product>Ctrl Link</Product>
+    <!-- Only download the runtimes this app uses (not ASP.NET or WPF), keeps restores and the build zip small. -->
+    <DisableTransitiveFrameworkReferenceDownloads>true</DisableTransitiveFrameworkReferenceDownloads>
+  </PropertyGroup>
+</Project>

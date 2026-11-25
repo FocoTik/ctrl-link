@@ -1,0 +1,41 @@
+# OS / editors
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.iml
+*.swp
+
+# Mac
+Codebase/Mac/.build/
+Codebase/Mac/build/
+Codebase/Mac/.swiftpm/
+xcuserdata/
+
+# Android
+Codebase/Android/.gradle/
+Codebase/Android/.kotlin/
+Codebase/Android/build/
+Codebase/Android/app/build/
+Codebase/Android/local.properties
+*.keystore
+*.jks
+
+# Windows
+Codebase/Windows/.packages/
+Codebase/Windows/**/bin/
+Codebase/Windows/**/obj/
+Codebase/Windows/dist/
+Codebase/Windows/.vpk/
+Codebase/Windows/.signing/
+Codebase/Windows/.tools/
+Codebase/Windows/.buildkit/
+*.p12
+*.pfx
+
+# Protocol peer
+Codebase/protocol/test-peer/node_modules/
+Codebase/protocol/test-peer/.peer-state/
+
+# Logs
+*.log
