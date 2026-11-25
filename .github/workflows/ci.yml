@@ -51,4 +51,5 @@ jobs:
         with: { node-version: 24 }
       - run: npm ci
         working-directory: Codebase/protocol/test-peer
-      - run: dotnet test Codebase/Windows/tests/CtrlLink.Core.Tests
+      # MdnsInteropTests need real LAN multicast, which hosted runners don't provide; they run locally.
+      - run: dotnet test Codebase/Windows/tests/CtrlLink.Core.Tests --filter "FullyQualifiedName!~MdnsInteropTests"
