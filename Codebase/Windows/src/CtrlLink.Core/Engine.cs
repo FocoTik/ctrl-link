@@ -479,9 +479,7 @@ public sealed partial class Engine : IEngine
 
     void Record(ClipRecord c)
     {
-        clips = HistoryFile.Trim([HistoryFile.Capped(c), .. clips], DateTimeOffset.Now);
-        Changed(nameof(Clips));
-        SaveHistory();
+        // Counts first, then the list: anyone who sees the new clip in Clips also sees it in CountsOn.
         // Copy on write: CountsOn reads it from the UI thread.
         var d = new Dictionary<string, Dictionary<string, int>>(data.Daily ?? []);
         var key = DayKey(DateOnly.FromDateTime(c.Date.LocalDateTime));
@@ -492,6 +490,9 @@ public sealed partial class Engine : IEngine
         foreach (var k in d.Keys.Where(k => string.CompareOrdinal(k, cutoff) < 0).ToList()) d.Remove(k);
         data.Daily = d;
         Save();
+        clips = HistoryFile.Trim([HistoryFile.Capped(c), .. clips], DateTimeOffset.Now);
+        Changed(nameof(Clips));
+        SaveHistory();
     }
 
     int historyQueued;

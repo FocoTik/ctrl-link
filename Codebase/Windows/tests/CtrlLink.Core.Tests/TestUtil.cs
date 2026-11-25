@@ -59,10 +59,17 @@ static class T
 
     public static string LocalUri(string uri) => Regex.Replace(uri, "h=[^&]*", "h=127.0.0.1");
 
+    /// Reopening replaces an open window with a new code and key, asynchronously: wait for the new one, not the old one.
+    static async Task OpenFreshWindow(TestEngine host)
+    {
+        var before = host.E.PairingWindow;
+        host.E.OpenPairingWindow();
+        await Until(() => host.E.PairingWindow is { } w && !ReferenceEquals(w, before), "pairing window");
+    }
+
     public static async Task PairByUri(TestEngine host, TestEngine joiner)
     {
-        host.E.OpenPairingWindow();
-        await Until(() => host.E.PairingWindow is not null, "pairing window");
+        await OpenFreshWindow(host);
         joiner.E.JoinWithUri(LocalUri(host.E.PairingWindow!.Uri));
         await Until(() => joiner.E.Join is JoinState.Done or JoinState.Failed, "join");
         Assert.IsType<JoinState.Done>(joiner.E.Join);
@@ -71,8 +78,7 @@ static class T
 
     public static async Task PairByCode(TestEngine host, TestEngine joiner)
     {
-        host.E.OpenPairingWindow();
-        await Until(() => host.E.PairingWindow is not null, "pairing window");
+        await OpenFreshWindow(host);
         joiner.E.JoinWithCode(host.E.PairingWindow!.Code, host.Ep);
         await Until(() => host.E.PairingWindow?.Request is not null, "pair request");
         await Until(() => joiner.E.Join is JoinState.Confirm, "joiner SAS");
