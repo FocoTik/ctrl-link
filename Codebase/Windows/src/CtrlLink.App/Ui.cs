@@ -245,7 +245,9 @@ static class Ui
         {
             down = false;
             Update();
-            if (b.IsPointerOver) Dispatcher.UIThread.Post(onClick);
+            // Released inside the control (by position: IsPointerOver can lag in a window that was shown without activation).
+            var at = e.GetPosition(b);
+            if (at.X >= 0 && at.Y >= 0 && at.X <= b.Bounds.Width && at.Y <= b.Bounds.Height) Dispatcher.UIThread.Post(onClick);
             e.Handled = true;
         };
         b.KeyDown += (_, e) =>

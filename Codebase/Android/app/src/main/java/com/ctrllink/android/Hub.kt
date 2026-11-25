@@ -93,6 +93,9 @@ class TransferTracker(private val now: () -> Long = System::currentTimeMillis) {
 
 class PairPrompt(val name: String, val sas: String, val answer: CompletableDeferred<Boolean>)
 
+/** Files over the auto-accept limit waiting for Accept / Decline, from the notification or the app. */
+class FileOffer(val id: String, val from: String, val files: List<String>, val total: Long, val answer: CompletableDeferred<Boolean>)
+
 /** Process-wide state shared by the service, the activities and the UI. */
 object Hub {
     lateinit var store: Store
@@ -101,6 +104,7 @@ object Hub {
     val found = MutableStateFlow(emptyMap<String, Found>())
     val pairWindow = MutableStateFlow<PairWindow?>(null)
     val pairPrompt = MutableStateFlow<PairPrompt?>(null)
+    val offers = MutableStateFlow(emptyList<FileOffer>())
     val transfers = TransferTracker()
     val paired = MutableSharedFlow<Peer>(extraBufferCapacity = 1)
 

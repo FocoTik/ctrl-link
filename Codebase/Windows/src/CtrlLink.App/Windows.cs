@@ -64,12 +64,12 @@ sealed class Flyout : Window
 sealed class Toast : Window
 {
     readonly DispatcherTimer timer = new();
+    Flyout? beside;
 
     public Toast()
     {
         Width = 360;
         Icon = Flyout.AppIcon;
-        SizeToContent = SizeToContent.Height;
         CanResize = false;
         SystemDecorations = SystemDecorations.None;
         ShowInTaskbar = false;
@@ -78,22 +78,35 @@ sealed class Toast : Window
         timer.Tick += (_, _) => { timer.Stop(); Hide(); };
     }
 
-    public void Show(string title, string sub, (string Text, Action Do)[] actions, Flyout? beside)
+    public void Show(string title, string sub, (string Text, Action Do)[] actions, Flyout? flyout)
     {
+        if (beside != flyout)
+        {
+            // Follow the flyout: sit left of it while it is open, back in the corner once it closes.
+            beside = flyout;
+            if (flyout != null) flyout.PropertyChanged += (_, e) => { if (e.Property == IsVisibleProperty && IsVisible) Place(); };
+        }
         Background = B(P.Surface);
-        Content = Card(title, sub, actions.Select(a => (a.Text, (Action)(() => { a.Do(); Hide(); }))).ToArray(), Hide);
+        var card = Card(title, sub, actions.Select(a => (a.Text, (Action)(() => { a.Do(); Hide(); }))).ToArray(), Hide);
+        Content = card;
+        // Measure first so the position uses the real height (right after Show the window still has its default 768 px).
+        card.Measure(new Size(Width, double.PositiveInfinity));
+        Height = Math.Ceiling(card.DesiredSize.Height);
+        Place();
         Show();
-        Position = Flyout.Corner(this, Width, Bounds.Height, beside?.IsVisible == true ? Flyout.W + Flyout.Gap : 0);
+        Place();
         timer.Interval = TimeSpan.FromSeconds(actions.Length > 0 ? 30 : 6);
         timer.Stop();
         timer.Start();
     }
 
+    void Place() => Position = Flyout.Corner(this, Width, Height, beside?.IsVisible == true ? Flyout.W + Flyout.Gap : 0);
+
     public static Control Card(string title, string sub, (string Text, Action Do)[] actions, Action close)
     {
         var x = Clickable(Stroked(ClosePath, 14, P.Text2), close, "Dismiss", 14);
-        x.Width = x.Height = 40;
-        x.Margin = new Thickness(0, -6, -6, -6);
+        x.Width = x.Height = 32;
+        x.Margin = new Thickness(0, -4, -2, -4);
         var head = Row((HStack(8, Monogram(14, P.Text2), Label("Ctrl Link", size: 11)), "*"), (x, "Auto"));
         var body = Stack(4, head, Body(title, 14, P.Text, FontWeight.Medium).Trim(2).Margin(0, 4, 0, 0), Body(sub, 13, P.Text2).Trim(2));
         if (actions.Length > 0)

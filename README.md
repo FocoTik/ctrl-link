@@ -6,7 +6,8 @@
 
 <p align="center">
   Copy on one device, paste on another.<br>
-  Text, links, images, videos and any file — over your local network, end-to-end encrypted, no cloud.
+  Text, links, images, videos and any file — over your local network, end-to-end encrypted, no cloud.<br>
+  <sub>Designed and developed by <b>Focotik agency</b></sub>
 </p>
 
 <p align="center">
@@ -126,6 +127,8 @@ Details in [`Codebase/protocol/PROTOCOL.md`](Codebase/protocol/PROTOCOL.md).
 Pull requests are welcome — see [CONTRIBUTING.md](CONTRIBUTING.md). For security issues, please follow [SECURITY.md](SECURITY.md) instead of opening a public issue.
 
 ## Credits
+
+Ctrl Link is designed, developed and maintained by **Focotik agency**: the Mac, Android and Windows apps and the protocol.
 
 Display type is [Newsreader](https://fonts.google.com/specimen/Newsreader), licensed under the [SIL Open Font License](Codebase/design/fonts/OFL.txt).
 

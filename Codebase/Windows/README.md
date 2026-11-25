@@ -8,7 +8,7 @@ It is built entirely on the Mac: C# / .NET 10, Avalonia UI, packaged into a Wind
 | `src/CtrlLink.Core` | Protocol, crypto, pairing, sessions, transfers, mDNS. Cross-platform, public API in `Api.cs` |
 | `src/CtrlLink.App` | Tray icon, flyout UI, clipboard hook, notifications (Windows-only parts run only on Windows) |
 | `tests/CtrlLink.Core.Tests` | Test vectors, in-process pairing/transfer, interop with `protocol/test-peer`, mDNS against macOS `dns-sd` |
-| `scripts/build-installer.sh` | Builds `dist/CtrlLink-<version>-Setup-x64.exe` and `-arm64.exe`, signed by `scripts/sign.sh` when `.signing/` exists |
+| `scripts/build-installer.sh` | Builds `dist/CtrlLink-<version>-Setup-x64.exe` and `-arm64.exe`, unsigned for now |
 
 Toolchain: .NET SDK in `~/.dotnet`, packages in `Windows/.packages` (see `../../docs/BUILDING.md`).
 
@@ -27,12 +27,11 @@ dotnet test Windows/tests/CtrlLink.Core.Tests
 
 ## Install on the PC
 
-1. Once per PC, copy `Focotik-agency.cer` and `Install-Certificate.cmd` (both in `dist/`) and double-click `Install-Certificate.cmd`.
-   It trusts the self-signed "Focotik agency" certificate the installers are signed with, so Windows shows that publisher instead of
-   "Unknown publisher". If SmartScreen still warns (new self-signed apps have no reputation), choose **More info → Run anyway**,
-   or right-click the file → Properties → **Unblock**. Remove the certificate with `Install-Certificate.cmd uninstall`.
-2. Copy `CtrlLink-<version>-Setup-x64.exe` (Arm64 PCs: `-arm64.exe`) to the PC and run it. It installs for the current user
+1. Copy `CtrlLink-<version>-Setup-x64.exe` (Arm64 PCs: `-arm64.exe`) to the PC and run it. It installs for the current user
    into `%LocalAppData%\CtrlLink` with no admin prompt, and adds Start menu and desktop shortcuts. Remove it from Settings → Apps.
+2. The installer is not signed yet, so Windows warns the first time. If SmartScreen says "Windows protected your PC",
+   choose **More info → Run anyway**. If the browser flags the download, keep it (Edge: … → Keep → Show more → Keep anyway).
+   Check the file against `SHA256SUMS.txt` (`certutil -hashfile CtrlLink-<version>-Setup-x64.exe SHA256`) if you want to be sure it's untouched.
 3. On first launch Windows Firewall asks to allow Ctrl Link on **private networks**. Allow it, otherwise other devices can't reach the PC.
    The network must be set to Private (Settings → Network → your Wi-Fi → Private network).
 

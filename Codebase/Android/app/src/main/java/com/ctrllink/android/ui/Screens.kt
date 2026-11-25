@@ -32,6 +32,7 @@ import android.text.format.DateFormat
 import android.text.format.Formatter
 import android.widget.Toast
 import androidx.activity.compose.BackHandler
+import androidx.lifecycle.compose.LifecycleEventEffect
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.tween
@@ -90,12 +91,14 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LifecycleEventEffect
 import com.ctrllink.android.ClipService
 import com.ctrllink.android.HistoryItem
+import com.ctrllink.android.FileOffer
 import com.ctrllink.android.Hub
 import com.ctrllink.android.R
 import com.ctrllink.android.Send
@@ -121,10 +124,16 @@ fun App(invite: MutableStateFlow<String?>) {
     var splash by rememberSaveable { mutableStateOf(true) }
     val settings by store.settings.collectAsStateWithLifecycle()
     val inv by invite.collectAsStateWithLifecycle()
+    val offers by Hub.offers.collectAsStateWithLifecycle()
+    // Back on the offer screen leaves it unanswered (the notification still has Accept / Decline) and shows the app.
+    var skipped by rememberSaveable { mutableStateOf(emptySet<String>()) }
+    LifecycleEventEffect(Lifecycle.Event.ON_START) { skipped = emptySet() } // reopening the app asks again
+    val offer = offers.firstOrNull { it.id !in skipped }
     val screen = stack.substringAfterLast('/').ifEmpty { null }
     fun push(s: String) { stack = if (stack.isEmpty()) s else "$stack/$s" }
     val back = { if (inv != null) invite.value = null else stack = stack.substringBeforeLast('/', "") }
     BackHandler(screen != null || inv != null) { back() }
+    BackHandler(offer != null && !splash) { offer?.let { skipped = skipped + it.id } } // declared last, so it wins
 
     // As long as the service takes to come up, held for at least 600 ms so it reads as a screen rather than a flash,
     // and never more than 1.5 s.
@@ -140,6 +149,7 @@ fun App(invite: MutableStateFlow<String?>) {
     Box(Modifier.fillMaxSize().background(T.bg).systemBarsPadding().imePadding()) {
         when {
             splash -> Splash()
+            offer != null -> OfferScreen(offer, onBack = { skipped = skipped + offer.id })
             inv != null || screen == "join" -> JoinScreen(inv, back)
             screen == "host" -> HostScreen(back)
             screen == "paired" -> PairedDevicesScreen(back, onPairNew = { push("host") })
@@ -217,6 +227,23 @@ private fun DevicesScreen(onPair: () -> Unit, onJoin: () -> Unit) {
             SendButton()
         }
     }
+    }
+}
+
+/** Incoming files over the auto-accept limit: the same Accept / Decline as the notification, reachable from the app. */
+@Composable
+private fun OfferScreen(o: FileOffer, onBack: () -> Unit) {
+    val ctx = LocalContext.current
+    val what = if (o.files.size == 1) o.files[0] else "${o.files.size} files"
+    val names = if (o.files.size <= 2) o.files.joinToString(", ") else "${o.files.take(2).joinToString(", ")} and ${o.files.size - 2} more"
+    PairFrame(onBack, center = true, footer = {
+        PillButton("Decline", filled = false, onClick = { o.answer.complete(false) })
+        PillButton("Accept", filled = true, onClick = { o.answer.complete(true) }, modifier = Modifier.weight(1f))
+    }) {
+        Label("Incoming files")
+        Headline("${o.from} wants to send $what", size = 28.sp)
+        Text("$names · ${Formatter.formatFileSize(ctx, o.total)}", color = T.secondary, fontSize = 14.sp, lineHeight = 20.sp,
+            textAlign = TextAlign.Center, modifier = Modifier.fillMaxWidth())
     }
 }
 

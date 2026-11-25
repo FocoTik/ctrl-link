@@ -52,7 +52,7 @@ Windows/scripts/build-installer.sh     # → Windows/dist/*.exe + SHA256SUMS.txt
 ```
 
 - NuGet packages are restored into `Windows/.packages` (gitignored), not `~/.nuget`.
-- Installers are Authenticode-signed by `scripts/sign.sh` only when a local `Windows/.signing/` keystore exists. It is never committed; without it the installers are unsigned.
+- Installers are unsigned for now, so SmartScreen shows "Unknown publisher" until code signing is added.
 - `Windows/scripts/make-build-zip.sh` produces an offline build kit (source + .NET SDK) for building directly on a PC. See `Windows/README.md`.
 - Headless screenshots of every screen: `dotnet run --project Windows/src/CtrlLink.App -- --screenshots <dir>`.
 

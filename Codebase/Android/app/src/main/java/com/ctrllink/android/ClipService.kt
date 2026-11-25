@@ -280,10 +280,13 @@ class ClipService : Service(), CoreListener {
         if (total <= store.settings.value.limitMb * 1_000_000L) return true
         val d = CompletableDeferred<Boolean>()
         decisions[clipId] = d
+        val offer = FileOffer(clipId, from.name, files.map { it.name }, total, d)
+        Hub.offers.update { it + offer }
         val nid = clipId.hashCode()
         nm.notify(nid, builder(CH_ASK)
             .setContentTitle("${from.name} wants to send ${if (files.size == 1) files[0].name else "${files.size} files"}")
             .setContentText(Formatter.formatFileSize(this, total))
+            .setContentIntent(activityPi(Intent(this, MainActivity::class.java)))
             .addAction(0, "Accept", servicePi(ACT_ACCEPT, clipId))
             .addAction(0, "Decline", servicePi(ACT_DECLINE, clipId))
             .setTimeoutAfter(5 * 60_000)
@@ -292,6 +295,7 @@ class ClipService : Service(), CoreListener {
             withTimeoutOrNull(5 * 60_000) { d.await() } ?: false
         } finally {
             decisions.remove(clipId)
+            Hub.offers.update { it - offer }
             nm.cancel(nid)
         }
     }

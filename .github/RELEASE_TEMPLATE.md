@@ -18,3 +18,5 @@ Check a download against `SHA256SUMS.txt` with `shasum -a 256 <file>`.
 Then open Ctrl Link on two devices on the same Wi-Fi and pair them with the QR code or 6-digit code.
 
 See CHANGELOG.md in the repository for what changed.
+
+— Built by **Focotik agency**
