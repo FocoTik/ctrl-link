@@ -34,11 +34,37 @@
 
 | Platform | Download | Notes |
 |---|---|---|
-| **Windows 10/11** | [Installer (x64)](../../releases/latest/download/CtrlLink-Windows-x64-Setup.exe) · [Arm64](../../releases/latest/download/CtrlLink-Windows-arm64-Setup.exe) | No admin needed. If SmartScreen warns: **More info → Run anyway**. Allow Ctrl Link on **private networks** |
-| **macOS 14+** (Apple silicon) | [CtrlLink-macOS.zip](../../releases/latest/download/CtrlLink-macOS.zip) | Unzip, move to Applications, right-click → **Open** the first time |
+| **Windows 10/11** | [Installer (x64)](../../releases/latest/download/CtrlLink-Windows-x64-Setup.exe) · [Arm64](../../releases/latest/download/CtrlLink-Windows-arm64-Setup.exe) | No admin needed. SmartScreen will warn once: see [security warnings](#security-warnings-on-first-launch) |
+| **macOS 14+** (Apple silicon) | [CtrlLink-macOS.zip](../../releases/latest/download/CtrlLink-macOS.zip) | Unzip, move to Applications. macOS will warn once: see [security warnings](#security-warnings-on-first-launch) |
 | **Android 8.0+** | [CtrlLink-Android.apk](../../releases/latest/download/CtrlLink-Android.apk) | Open on the phone and allow installing from this source |
 
 All versions and checksums: **[Releases](../../releases)**. Install on two devices on the same Wi-Fi, then pair with the QR code or 6-digit code.
+
+## Security warnings on first launch
+
+Windows and macOS will warn you the first time you open Ctrl Link. **This is expected.** Ctrl Link is a free, open-source app and the builds are not yet signed with a paid Microsoft code-signing certificate or notarized by Apple, so the operating system can't confirm who made them. The warning is about the missing signature, not about anything the app does. The full source code is in this repository and the release builds are made by GitHub Actions straight from it.
+
+**Windows — "Windows protected your PC" (Microsoft Defender SmartScreen)**
+1. Click **More info**.
+2. Check that the app is `CtrlLink-Windows-…-Setup.exe`, then click **Run anyway**.
+3. If your browser flags the download, choose **Keep** (Edge: **⋯ → Keep → Show more → Keep anyway**).
+4. When Windows Firewall asks, allow Ctrl Link on **Private networks** so your other devices can reach it.
+
+**macOS — "Apple could not verify "Ctrl Link" is free of malware"**
+1. Unzip and move **Ctrl Link** to **Applications**, then open it once. When the warning appears, click **Done** (not *Move to Trash*).
+2. Open **System Settings → Privacy & Security**, scroll down to the message about Ctrl Link, and click **Open Anyway**. Confirm with your password or Touch ID.
+3. Open Ctrl Link again and click **Open**. You only do this once.
+
+On macOS 14 you can instead right-click the app → **Open** → **Open**.
+
+**Make sure your download is genuine**
+- Download only from this repository's [Releases](../../releases) page.
+- Compare the file with `SHA256SUMS.txt` from the same release:
+  - macOS: `shasum -a 256 CtrlLink-macOS.zip`
+  - Windows (PowerShell): `Get-FileHash .\CtrlLink-Windows-x64-Setup.exe`
+  The result must match the line for that file.
+
+These warnings go away once the builds are code-signed (Windows) and notarized (macOS).
 
 ## Features
 
