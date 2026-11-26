@@ -17,7 +17,7 @@ for p in CtrlLink.Core CtrlLink.App; do rsync -a --exclude bin --exclude obj --e
 cp Directory.Build.props "$K/Windows/"
 cp ../design/fonts/Newsreader-Variable.ttf ../design/fonts/OFL.txt "$K/design/fonts/"
 cp scripts/buildkit/NuGet.config "$K/"
-for f in build.bat README.txt; do perl -pe 's/\r?\n/\r\n/' "scripts/buildkit/$f" > "$K/$f"; done
+for f in build.bat uninstall.cmd README.txt; do perl -pe 's/\r?\n/\r\n/' "scripts/buildkit/$f" > "$K/$f"; done
 
 APP="$K/Windows/src/CtrlLink.App"
 PUB="publish $APP -c Release -r win-x64 --self-contained -p:PublishReadyToRun=false -o .buildkit/out"

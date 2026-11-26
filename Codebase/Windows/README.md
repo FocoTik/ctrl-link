@@ -35,16 +35,18 @@ dotnet test Windows/tests/CtrlLink.Core.Tests
 3. On first launch Windows Firewall asks to allow Ctrl Link on **private networks**. Allow it, otherwise other devices can't reach the PC.
    The network must be set to Private (Settings → Network → your Wi-Fi → Private network).
 
-## Or build it on the PC (no installer)
+## Or build and install it on the PC (fallback when the installer is blocked)
 
 ```sh
-Windows/scripts/make-build-zip.sh      # → Windows/dist/CtrlLink-build.zip (~380 MB)
+Windows/scripts/make-build-zip.sh      # → Windows/dist/CtrlLink-build.zip (~380 MB), released as CtrlLink-Windows-BuildKit.zip
 ```
 
-The zip holds the source, the .NET SDK for Windows x64 and every library, so nothing is downloaded or installed on the PC.
-On the PC: unblock the zip (Properties → Unblock), extract it to a short path like `C:\CtrlLink-build`, and double-click
-`build.bat`. It produces a `Ctrl Link\` folder with `CtrlLink.exe` that runs as-is (unsigned, x64 only). Steps are in the
-zip's `README.txt`. The kit files live in `scripts/buildkit/`.
+The zip holds the source, the .NET SDK for Windows x64 and every library, so nothing is downloaded on the PC and no admin
+rights are needed. On the PC: unblock the zip (Properties → Unblock), extract it to a short path like `C:\CtrlLink-build`, and
+double-click `build.bat`. It builds Ctrl Link, installs it to `%LOCALAPPDATA%\Programs\Ctrl Link`, adds Start menu and desktop
+shortcuts, registers it in Settings → Apps, and starts it. Because it is built locally, SmartScreen does not block it (x64 only).
+Uninstall from Settings → Apps, or run `Uninstall Ctrl Link.cmd` in the install folder; pairings in `%APPDATA%\Ctrl Link` are kept.
+The kit files live in `scripts/buildkit/` (`build.bat`, `uninstall.cmd`, `README.txt`).
 
 Data: `%APPDATA%\Ctrl Link\state.json` (pairing keys encrypted with Windows DPAPI for your user), `history.json` (History list: 14 days,
 at most 300 clips, text capped at 32 KB; Settings → Clear history deletes it) and `app.json` (app-only settings). Received files: `Downloads\Ctrl Link`.

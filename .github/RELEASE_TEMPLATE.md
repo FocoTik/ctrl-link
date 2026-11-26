@@ -4,6 +4,7 @@
 |---|---|
 | **Windows 10/11** (most PCs) | `CtrlLink-Windows-x64-Setup.exe` |
 | **Windows on Arm** (Surface Pro X, Snapdragon laptops) | `CtrlLink-Windows-arm64-Setup.exe` |
+| **Windows fallback** (if the installer is blocked) | `CtrlLink-Windows-BuildKit.zip`: build and install on your PC with one click, see below |
 | **macOS 14+** (Apple silicon) | `CtrlLink-macOS.zip` |
 | **Android 8.0+** | `CtrlLink-Android.apk` |
 
@@ -24,6 +25,16 @@ Windows and macOS will warn you the first time you open Ctrl Link. **This is exp
 2. Check that the app is `CtrlLink-Windows-…-Setup.exe`, then click **Run anyway**.
 3. If your browser flags the download, choose **Keep** (Edge: **⋯ → Keep → Show more → Keep anyway**).
 4. When Windows Firewall asks, allow Ctrl Link on **Private networks** so your other devices can reach it.
+
+**Installer still won't run? Build it on your PC instead (one click)**
+
+Some PCs block unsigned installers completely (company policy, Smart App Control, antivirus). Use the **Windows build kit** instead: download `CtrlLink-Windows-BuildKit.zip` (about 380 MB) from the release. It holds the source, the .NET SDK and every library, so nothing else is downloaded and no admin rights are needed. Because the app is built on your own PC, Windows does not block it.
+
+1. Right-click the zip → **Properties** → tick **Unblock** → **OK**.
+2. Extract it to a short path, for example `C:\CtrlLink-build`.
+3. Double-click **`build.bat`**. It builds Ctrl Link (a minute or two), installs it to `%LOCALAPPDATA%\Programs\Ctrl Link`, adds Start menu and desktop shortcuts, and starts it.
+
+To uninstall: **Settings → Apps → Installed apps → Ctrl Link → Uninstall** (or run `Uninstall Ctrl Link.cmd` in the install folder). Your pairings in `%APPDATA%\Ctrl Link` are kept; delete that folder too for a clean removal. The build kit is x64 only.
 
 **macOS — "Apple could not verify "Ctrl Link" is free of malware"**
 1. Unzip and move **Ctrl Link** to **Applications**, then open it once. When the warning appears, click **Done** (not *Move to Trash*).

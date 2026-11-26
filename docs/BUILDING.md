@@ -53,7 +53,7 @@ Windows/scripts/build-installer.sh     # → Windows/dist/*.exe + SHA256SUMS.txt
 
 - NuGet packages are restored into `Windows/.packages` (gitignored), not `~/.nuget`.
 - Installers are unsigned for now, so SmartScreen shows "Unknown publisher" until code signing is added.
-- `Windows/scripts/make-build-zip.sh` produces an offline build kit (source + .NET SDK) for building directly on a PC. See `Windows/README.md`.
+- `Windows/scripts/make-build-zip.sh` produces `Windows/dist/CtrlLink-build.zip`, the offline **build kit** (source + Windows .NET SDK + libraries). On the PC, `build.bat` builds Ctrl Link, installs it per-user with shortcuts and a Settings → Apps entry, and `uninstall.cmd` removes it. It needs the Windows SDK zip in `Windows/.tools/` (see the script).
 - Headless screenshots of every screen: `dotnet run --project Windows/src/CtrlLink.App -- --screenshots <dir>`.
 
 ## Protocol reference peer
@@ -79,5 +79,13 @@ node gen-vectors.mjs                   # regenerate ../test-vectors.json
 3. `.github/workflows/release.yml` builds the Mac zip, Android APK and both Windows installers, writes `SHA256SUMS.txt`, and publishes a GitHub Release using `.github/RELEASE_TEMPLATE.md`.
 
 Asset names have no version in them (`CtrlLink-Windows-x64-Setup.exe`, `CtrlLink-Windows-arm64-Setup.exe`, `CtrlLink-macOS.zip`, `CtrlLink-Android.apk`), so the README's `releases/latest/download/...` links always point at the newest build.
+
+The build kit is not built by CI (it needs the 290 MB Windows SDK zip). After the release is published, build it locally and attach it under its fixed name so the README link keeps working:
+
+```bash
+Windows/scripts/make-build-zip.sh
+cp Windows/dist/CtrlLink-build.zip /tmp/CtrlLink-Windows-BuildKit.zip
+gh release upload v1.1.0 /tmp/CtrlLink-Windows-BuildKit.zip --clobber
+```
 
 CI builds are unsigned: the Android APK is a debug build and the Windows installers show SmartScreen's "Unknown publisher" warning. To ship signed builds, sign locally and upload to the release, or add the keys as repository secrets and extend the workflow.
